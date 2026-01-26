@@ -1,73 +1,89 @@
-# Welcome to your Lovable project
+🚀 Journey Navigator – Java Full Stack Roadmap Platform
+A personal roadmap + progress tracking platform to guide a learner day-by-day toward becoming a high-skill Java Full Stack Developer.
 
-## Project info
+Built with a modern frontend stack and designed to run both as a web app and desktop app.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+📌 Project Features
+📅 Daily roadmap tasks (phase → month → week → day)
+✅ Task completion tracking
+📊 Progress visualization by skill areas
+📝 Notes for daily learnings
+🎯 Project milestones & checklists
+💾 Local data persistence
+🖥️ Desktop app support (Tauri)
+🛠 Tech Stack
+Frontend:
 
-## How can I edit this code?
+React
+TypeScript
+Vite
+Tailwind CSS
+shadcn-ui
+Desktop (optional):
 
-There are several ways of editing your application.
+Tauri
+Rust
+Tools:
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+Node.js
+npm
+Git
+📂 Run Project Locally
+1️⃣ Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2️⃣ Move into project folder
+cd <PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
+3️⃣ Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+4️⃣ Start development server
 npm run dev
-```
 
-**Edit a file directly in GitHub**
+App will run at:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+http://localhost:8080
 
-**Use GitHub Codespaces**
+(or shown in terminal)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+🖥 Run as Desktop App (Optional)
+Make sure you have installed:
 
-## What technologies are used for this project?
+Node.js
+Rust
+Visual Studio Build Tools (MSVC)
+Windows SDK
+Then run:
 
-This project is built with:
+npm run tauri dev
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+This launches the app as a native desktop application.
 
-## How can I deploy this project?
+✏️ Editing the Project
+You can edit the project using:
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+✅ Locally (Recommended)
+Open the project in VS Code and modify files inside:
 
-## Can I connect a custom domain to my Lovable project?
+src/
 
-Yes, you can!
+✅ Directly on GitHub
+Open file
+Click ✏️ Edit
+Commit changes
+🚀 Deployment
+You can deploy the web version using any platform that supports Vite (Netlify, Vercel, etc.)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Build command:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+npm run build
+
+📈 Goal of the Platform
+To provide a structured, distraction-free system that:
+
+Tells the user exactly what to do each day
+Tracks progress automatically
+Builds real-world full stack skills over time
+📄 License
+Open-source (modify as needed)
