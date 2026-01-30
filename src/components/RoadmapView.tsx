@@ -2,7 +2,10 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { ChevronLeft, ChevronRight, Filter } from 'lucide-react';
 import { TaskCard } from './TaskCard';
 import { dailyTasks, phases, TaskType } from '@/data/roadmapData';
-import { getTaskCompletions, getTodayAndNextTask } from '@/lib/storage';
+import { 
+  getTaskCompletions, 
+  setTaskCompletion 
+} from '@/lib/storage';
 
 export const RoadmapView: React.FC = () => {
 
@@ -13,36 +16,49 @@ export const RoadmapView: React.FC = () => {
   const [search, setSearch] = useState('');
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const { today: todayTask, next: nextTask } = getTodayAndNextTask(dailyTasks);
+  const completions = getTaskCompletions();
 
   const totalWeeks = Math.ceil(dailyTasks.length / 7);
 
-  // Auto jump to current studying week
-  useEffect(() => {
-    const completions = getTaskCompletions();
+  /* ===================== */
+  /* TODAY + NEXT TASK */
+  /* ===================== */
 
-    const currentTask = dailyTasks.find(
+  const pendingTasks = useMemo(() => {
+    return dailyTasks.filter(
       task => !completions[task.id]?.completed
     );
+  }, [refreshKey]);
 
-    if (currentTask) {
-      setSelectedWeek(currentTask.week);
+  const todayTask = pendingTasks[0] || null;
+  const nextTask = pendingTasks[1] || null;
+
+  /* ===================== */
+  /* AUTO JUMP WEEK */
+  /* ===================== */
+
+  useEffect(() => {
+
+    if (todayTask) {
+      setSelectedWeek(todayTask.week);
     }
+
   }, []);
 
-  // Filter logic
-  const filteredTasks = useMemo(() => {
+  /* ===================== */
+  /* FILTER TASKS */
+  /* ===================== */
 
-    const completions = getTaskCompletions();
+  const filteredTasks = useMemo(() => {
 
     return dailyTasks.filter(task => {
 
-      // SEARCH MODE
       if (search.trim() !== '') {
-        return task.topic.toLowerCase().includes(search.toLowerCase());
+        return task.topic
+          .toLowerCase()
+          .includes(search.toLowerCase());
       }
 
-      // NORMAL MODE
       if (task.week !== selectedWeek) return false;
 
       if (selectedPhase !== 'all' && task.phase !== selectedPhase) return false;
@@ -52,11 +68,22 @@ export const RoadmapView: React.FC = () => {
       if (!showCompleted && completions[task.id]?.completed) return false;
 
       return true;
+
     });
 
-  }, [selectedWeek, selectedPhase, filterType, showCompleted, refreshKey, search]);
+  }, [
+    selectedWeek,
+    selectedPhase,
+    filterType,
+    showCompleted,
+    refreshKey,
+    search
+  ]);
 
-  // Week date range
+  /* ===================== */
+  /* WEEK DATE RANGE */
+  /* ===================== */
+
   const getWeekDateRange = (week: number) => {
 
     const weekTasks = dailyTasks.filter(t => t.week === week);
@@ -73,22 +100,27 @@ export const RoadmapView: React.FC = () => {
   };
 
   const handleCompletionChange = () => {
-    setRefreshKey(p => p + 1);
+    setRefreshKey(v => v + 1);
   };
+
+  /* ===================== */
+  /* UI */
+  /* ===================== */
 
   return (
     <div className="flex-1 p-6 lg:p-8 flex flex-col overflow-hidden">
+
       <div className="max-w-4xl mx-auto flex flex-col flex-1 overflow-hidden">
 
-        {/* HEADER + SEARCH */}
+        {/* HEADER */}
         <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 
           <div>
-            <h1 className="text-2xl font-bold text-foreground mb-1">
+            <h1 className="text-2xl font-bold mb-1">
               Learning Roadmap
             </h1>
-            <p className="text-muted-foreground text-sm">
-              Your day-by-day journey to becoming a Java Full Stack Developer
+            <p className="text-sm text-muted-foreground">
+              Your day-by-day journey to Java Full Stack mastery
             </p>
           </div>
 
@@ -116,7 +148,9 @@ export const RoadmapView: React.FC = () => {
             </button>
 
             <div className="text-center">
-              <h2 className="text-xl font-bold">Week {selectedWeek}</h2>
+              <h2 className="text-xl font-bold">
+                Week {selectedWeek}
+              </h2>
               <p className="text-sm text-muted-foreground">
                 {getWeekDateRange(selectedWeek)}
               </p>
@@ -132,15 +166,15 @@ export const RoadmapView: React.FC = () => {
 
           </div>
 
-          {/* HORIZONTAL WEEK SCROLL */}
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide py-2">
+          {/* WEEK SCROLL */}
+          <div className="flex gap-2 overflow-x-auto py-2">
 
             {Array.from({ length: totalWeeks }, (_, i) => i + 1).map(week => (
 
               <button
                 key={week}
                 onClick={() => setSelectedWeek(week)}
-                className={`px-4 py-2 rounded-full whitespace-nowrap transition ${
+                className={`px-4 py-2 rounded-full transition ${
                   selectedWeek === week
                     ? 'bg-primary text-primary-foreground'
                     : 'bg-muted text-muted-foreground hover:bg-muted/70'
@@ -152,6 +186,7 @@ export const RoadmapView: React.FC = () => {
             ))}
 
           </div>
+
         </div>
 
         {/* FILTERS */}
@@ -159,7 +194,9 @@ export const RoadmapView: React.FC = () => {
 
           <div className="flex items-center gap-2 mb-3">
             <Filter className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm font-medium text-muted-foreground">Filters</span>
+            <span className="text-sm font-medium text-muted-foreground">
+              Filters
+            </span>
           </div>
 
           <div className="flex flex-wrap gap-3">
@@ -171,7 +208,9 @@ export const RoadmapView: React.FC = () => {
             >
               <option value="all">All Phases</option>
               {phases.map(p => (
-                <option key={p.id} value={p.id}>{p.shortName}</option>
+                <option key={p.id} value={p.id}>
+                  {p.shortName}
+                </option>
               ))}
             </select>
 
@@ -193,26 +232,60 @@ export const RoadmapView: React.FC = () => {
                 checked={showCompleted}
                 onChange={(e) => setShowCompleted(e.target.checked)}
               />
-              <span className="text-sm text-muted-foreground">Show completed</span>
+              <span className="text-sm text-muted-foreground">
+                Show completed
+              </span>
             </label>
 
           </div>
+
         </div>
 
-        {/* TASKS (ONLY THIS SCROLLS) */}
+        {/* TASK LIST */}
         <div className="space-y-4 overflow-y-auto flex-1 pr-2">
 
           {filteredTasks.length ? (
 
-            filteredTasks.map(task => (
-              <TaskCard
-                key={task.id}
-                task={task}
-                isToday={task.id === todayTask?.id}
-                isNext={task.id === nextTask?.id}
-                onCompletionChange={handleCompletionChange}
-              />
-            ))
+            filteredTasks.map(task => {
+
+              const completion = completions[task.id];
+
+              return (
+                <div key={task.id} className="space-y-1">
+
+                  <TaskCard
+                    task={task}
+                    isToday={task.id === todayTask?.id}
+                    isNext={task.id === nextTask?.id}
+                    onCompletionChange={handleCompletionChange}
+                  />
+
+                  {/* COMPLETED DATE (clean + subtle) */}
+                  {completion?.completed && (
+
+                    <div className="ml-4 flex items-center gap-2 text-xs text-muted-foreground">
+
+                      <span>Completed on</span>
+
+                      <input
+                        type="date"
+                        value={completion.completedAt || ""}
+                        onChange={(e) => {
+                        setTaskCompletion(task.id, true, e.target.value);
+                        setRefreshKey(v => v + 1);   // 🔥 instant UI update
+                        }}
+                        
+                        className="bg-muted px-2 py-1 rounded-md outline-none"
+                      />
+
+
+                    </div>
+
+                  )}
+
+                </div>
+              );
+            })
 
           ) : (
 

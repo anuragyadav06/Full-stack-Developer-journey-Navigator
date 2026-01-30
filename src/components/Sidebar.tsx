@@ -24,52 +24,74 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
 
   const overallProgress = calculateOverallProgress(dailyTasks);
 
+  /* ===================== */
+  /* EXPORT BACKUP */
+  /* ===================== */
+
   const handleExport = () => {
     const data = exportAllData();
-    const blob = new Blob([data], { type: 'application/json' });
+
+    const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `devpath-backup-${new Date().toISOString().split('T')[0]}.json`;
-    a.click();
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `devpath-backup-${new Date().toISOString().split("T")[0]}.json`;
+
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 
+  /* ===================== */
+  /* IMPORT BACKUP */
+  /* ===================== */
+
   const handleImport = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    input.onchange = (e) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+
+    input.onchange = e => {
       const file = (e.target as HTMLInputElement).files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const content = e.target?.result as string;
-          if (importData(content)) {
-            window.location.reload();
-          } else {
-            alert('Failed to import data.');
-          }
-        };
-        reader.readAsText(file);
-      }
+
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = e => {
+        const content = e.target?.result as string;
+
+        if (importData(content)) {
+          window.location.reload();
+        } else {
+          alert("Failed to import backup file");
+        }
+      };
+
+      reader.readAsText(file);
     };
+
     input.click();
   };
+
+  /* ===================== */
+  /* NAV ITEMS */
+  /* ===================== */
 
   const navItems = [
     { id: 'dashboard' as View, label: 'Dashboard', icon: LayoutDashboard },
     { id: 'roadmap' as View, label: 'Roadmap', icon: Map },
     { id: 'projects' as View, label: 'Projects', icon: FolderKanban },
-
-    // ✅ NEW SETTINGS TAB
-    { id: 'settings' as View, label: 'Settings', icon: SettingsIcon },
+    { id: 'settings' as View, label: 'Settings', icon: SettingsIcon }
   ];
 
   return (
     <aside className="w-64 bg-sidebar border-r border-sidebar-border flex flex-col h-screen">
 
-      {/* Logo */}
+      {/* LOGO */}
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
@@ -82,7 +104,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
         </div>
       </div>
 
-      {/* Mini Progress */}
+      {/* MINI PROGRESS */}
       <div className="p-4 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
           <ProgressRing 
@@ -102,7 +124,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* NAVIGATION */}
       <nav className="flex-1 p-4">
         <ul className="space-y-1">
 
@@ -130,8 +152,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
         </ul>
       </nav>
 
-      {/* Data */}
+      {/* DATA SECTION */}
       <div className="p-4 border-t border-sidebar-border">
+
         <p className="text-xs text-sidebar-foreground/50 uppercase tracking-wider mb-3">
           Data
         </p>
@@ -140,7 +163,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
 
           <button
             onClick={handleExport}
-            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 rounded-lg"
+            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 rounded-lg transition-colors"
           >
             <Download className="w-4 h-4" />
             Export Backup
@@ -148,7 +171,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
 
           <button
             onClick={handleImport}
-            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 rounded-lg"
+            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 rounded-lg transition-colors"
           >
             <Upload className="w-4 h-4" />
             Import Backup
@@ -157,7 +180,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
         </div>
       </div>
 
-      {/* Footer */}
+      {/* FOOTER */}
       <div className="p-4 border-t border-sidebar-border">
         <p className="text-xs text-sidebar-foreground/40 text-center">
           Jan 2026 → Jun 2027

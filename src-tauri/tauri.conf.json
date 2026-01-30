@@ -1,20 +1,23 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "Journey Navigator",
+  "productName": "Dev Path",
   "version": "0.1.0",
-  "identifier": "com.tauri.dev",
+  "identifier": "com.anuragyadav.devpath",
+  
   "build": {
-    "frontendDist": "dist",
-    "devUrl": "http://localhost:8080/",
+  "frontendDist": "../dist",
+  "devUrl": "http://localhost:8080/",
+
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build"
   },
+
   "app": {
     "windows": [
       {
-        "title": "Journey Navigator",
-        "width": 800,
-        "height": 600,
+        "title": "Dev Path",
+        "width": 1000,
+        "height": 700,
         "resizable": true,
         "fullscreen": false
       }
@@ -23,6 +26,7 @@
       "csp": null
     }
   },
+
   "bundle": {
     "active": true,
     "targets": "all",
