@@ -5,7 +5,7 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* ===================== */
-/* LIGHT THEME (DEFAULT) */
+/* LIGHT THEME */
 /* ===================== */
 
 @layer base {
@@ -116,7 +116,7 @@
 }
 
 /* ===================== */
-/* BASE STYLES */
+/* BASE */
 /* ===================== */
 
 @layer base {
@@ -126,7 +126,6 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
   }
 
   code, .font-mono {
@@ -149,14 +148,6 @@
     transform: rotate(-90deg);
   }
 
-  .progress-ring-circle {
-    transition: stroke-dashoffset 0.5s ease-in-out;
-  }
-
-  .glow-effect {
-    box-shadow: var(--shadow-glow);
-  }
-
   .task-card {
     @apply glass-card p-4 transition-all duration-300 hover:border-primary/30;
   }
@@ -164,60 +155,43 @@
   .phase-badge {
     @apply px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider;
   }
-
-  .fade-in {
-    animation: fadeIn 0.3s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .slide-in {
-    animation: slideIn 0.4s ease-out;
-  }
-
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
 }
 
 /* ===================== */
-/* SCROLLBAR */
+/* PREMIUM AUTO HIDE SCROLLBAR */
 /* ===================== */
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(222 47% 90%);
+  background: transparent;
 }
 
-.dark ::-webkit-scrollbar-track {
-  background: hsl(222 47% 8%);
-}
-
+/* Hidden normally */
 ::-webkit-scrollbar-thumb {
-  background: hsl(222 47% 50%);
-  border-radius: 4px;
+  background: rgba(0, 0, 0, 0);
+  border-radius: 12px;
+  transition: background 0.25s ease;
 }
 
+/* Appear while scrolling / hover */
+:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* Hover stronger */
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(222 47% 40%);
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* Dark mode */
+.dark :hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.45);
 }
