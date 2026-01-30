@@ -1,5 +1,14 @@
 import React from 'react';
-import { LayoutDashboard, Map, FolderKanban, Settings, Download, Upload, Code2 } from 'lucide-react';
+import { 
+  LayoutDashboard, 
+  Map, 
+  FolderKanban, 
+  Settings as SettingsIcon, 
+  Download, 
+  Upload, 
+  Code2 
+} from 'lucide-react';
+
 import { ProgressRing } from './ProgressRing';
 import { dailyTasks } from '@/data/roadmapData';
 import { calculateOverallProgress, exportAllData, importData } from '@/lib/storage';
@@ -11,10 +20,10 @@ interface SidebarProps {
   onViewChange: (view: View) => void;
 }
 
-
 export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) => {
+
   const overallProgress = calculateOverallProgress(dailyTasks);
-  
+
   const handleExport = () => {
     const data = exportAllData();
     const blob = new Blob([data], { type: 'application/json' });
@@ -25,7 +34,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
     a.click();
     URL.revokeObjectURL(url);
   };
-  
+
   const handleImport = () => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -39,7 +48,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
           if (importData(content)) {
             window.location.reload();
           } else {
-            alert('Failed to import data. Please check the file format.');
+            alert('Failed to import data.');
           }
         };
         reader.readAsText(file);
@@ -47,15 +56,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
     };
     input.click();
   };
-  
+
   const navItems = [
     { id: 'dashboard' as View, label: 'Dashboard', icon: LayoutDashboard },
     { id: 'roadmap' as View, label: 'Roadmap', icon: Map },
     { id: 'projects' as View, label: 'Projects', icon: FolderKanban },
+
+    // ✅ NEW SETTINGS TAB
+    { id: 'settings' as View, label: 'Settings', icon: SettingsIcon },
   ];
-  
+
   return (
     <aside className="w-64 bg-sidebar border-r border-sidebar-border flex flex-col h-screen">
+
       {/* Logo */}
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
@@ -68,8 +81,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
           </div>
         </div>
       </div>
-      
-      {/* Progress Mini */}
+
+      {/* Mini Progress */}
       <div className="p-4 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
           <ProgressRing 
@@ -79,19 +92,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
             showPercentage={false}
           />
           <div>
-            <p className="text-2xl font-bold text-sidebar-foreground">{overallProgress}%</p>
-            <p className="text-xs text-sidebar-foreground/60">Complete</p>
+            <p className="text-2xl font-bold text-sidebar-foreground">
+              {overallProgress}%
+            </p>
+            <p className="text-xs text-sidebar-foreground/60">
+              Complete
+            </p>
           </div>
         </div>
       </div>
-      
+
       {/* Navigation */}
       <nav className="flex-1 p-4">
         <ul className="space-y-1">
+
           {navItems.map(item => {
             const Icon = item.icon;
             const isActive = activeView === item.id;
-            
+
             return (
               <li key={item.id}>
                 <button
@@ -108,38 +126,44 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) =>
               </li>
             );
           })}
+
         </ul>
       </nav>
-      
-      {/* Data Management */}
+
+      {/* Data */}
       <div className="p-4 border-t border-sidebar-border">
         <p className="text-xs text-sidebar-foreground/50 uppercase tracking-wider mb-3">
           Data
         </p>
+
         <div className="space-y-2">
+
           <button
             onClick={handleExport}
-            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 rounded-lg transition-colors"
+            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 rounded-lg"
           >
             <Download className="w-4 h-4" />
             Export Backup
           </button>
+
           <button
             onClick={handleImport}
-            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 rounded-lg transition-colors"
+            className="w-full flex items-center gap-3 px-4 py-2 text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 rounded-lg"
           >
             <Upload className="w-4 h-4" />
             Import Backup
           </button>
+
         </div>
       </div>
-      
+
       {/* Footer */}
       <div className="p-4 border-t border-sidebar-border">
         <p className="text-xs text-sidebar-foreground/40 text-center">
           Jan 2026 → Jun 2027
         </p>
       </div>
+
     </aside>
   );
 };

@@ -1,6 +1,12 @@
 import React from 'react';
 import { dailyTasks, phases } from '@/data/roadmapData';
-import { getJourneyStats, getUserProgress } from '@/lib/storage';
+import { 
+  getJourneyStats, 
+  getUserProgress, 
+  calculatePhaseProgress 
+} from '@/lib/storage';
+
+import { ProgressBar } from '@/components/ProgressRing';
 
 export const JourneyTimelineView: React.FC = () => {
 
@@ -33,7 +39,7 @@ export const JourneyTimelineView: React.FC = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
 
         <div className="glass-card p-4 text-center">
           <p className="text-sm text-muted-foreground">Days Passed</p>
@@ -61,29 +67,58 @@ export const JourneyTimelineView: React.FC = () => {
 
       </div>
 
-      {/* Phase Milestones */}
-      <h2 className="text-lg font-semibold mb-4">Phases</h2>
+      {/* Phases With Progress */}
+      <h2 className="text-lg font-semibold mb-4">
+        Phase Progress
+      </h2>
 
-      <div className="space-y-3 max-w-xl">
+      <div className="space-y-5 max-w-2xl">
 
-        {phases.map(phase => (
-          <div key={phase.id} className="flex items-center gap-3">
+        {phases.map(phase => {
 
-            <div
-              className="w-3 h-3 rounded-full"
-              style={{ backgroundColor: phase.color }}
-            />
+          const phaseProgress = calculatePhaseProgress(
+            phase.id,
+            dailyTasks
+          );
 
-            <span className="font-medium">
-              {phase.shortName}
-            </span>
+          return (
+            <div 
+              key={phase.id} 
+              className="glass-card p-4 space-y-2"
+            >
 
-            <span className="text-sm text-muted-foreground">
-              {phase.startDate} → {phase.endDate}
-            </span>
+              {/* Phase Header */}
+              <div className="flex items-center justify-between">
 
-          </div>
-        ))}
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: phase.color }}
+                  />
+
+                  <span className="font-medium">
+                    {phase.shortName}
+                  </span>
+                </div>
+
+                <span className="text-sm text-muted-foreground">
+                  {phase.startDate} → {phase.endDate}
+                </span>
+
+              </div>
+
+              {/* Progress Bar */}
+              <ProgressBar
+                progress={phaseProgress}
+                label={`${phaseProgress}%`}
+                showLabel
+                color="bg-primary"
+                height={8}
+              />
+
+            </div>
+          );
+        })}
 
       </div>
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Flame, Target, Calendar, TrendingUp, ChevronRight, Zap } from 'lucide-react';
-import { ProgressRing, ProgressBar } from './ProgressRing';
+import { Flame, Calendar, TrendingUp, ChevronRight, Zap } from 'lucide-react';
+import { ProgressRing } from './ProgressRing';
 import { TaskCard } from './TaskCard';
 import { dailyTasks, phases } from '@/data/roadmapData';
 
@@ -22,13 +22,11 @@ interface DashboardProps {
   onNavigateToTimeline: () => void;
 }
 
-
 export const Dashboard: React.FC<DashboardProps> = ({
   onNavigateToRoadmap, 
   onNavigateToStreaks,
   onNavigateToTimeline
 }) => {
-
 
   const [streak, setStreak] = useState({ currentStreak: 0, longestStreak: 0 });
   const [overallProgress, setOverallProgress] = useState(0);
@@ -38,9 +36,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const [refreshKey, setRefreshKey] = useState(0);
 
   const refreshData = () => {
-
     setStreak(getStreakData());
-
     setOverallProgress(calculateOverallProgress(dailyTasks));
 
     const phaseData: Record<string, number> = {};
@@ -69,7 +65,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const currentPhase =
     phases.find(p => today >= p.startDate && today <= p.endDate) || phases[0];
 
-  // 🔥 Journey Pace Stats (clean)
   const paceStats = getJourneyStats(dailyTasks);
 
   return (
@@ -87,7 +82,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
         {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
-          {/* Streak */}
           <div
             className="glass-card p-5 cursor-pointer hover:opacity-80"
             onClick={onNavigateToStreaks}
@@ -107,29 +101,26 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </p>
           </div>
 
-          {/* Overall Progress */}
-          <div className="glass-card p-5">
-            <div className="flex justify-between mb-3">
-              <span className="text-sm text-muted-foreground">Overall Progress</span>
-              <Target className="text-primary" />
-            </div>
+          <div className="glass-card p-6 flex flex-col items-center justify-center">
+            <h3 className="text-sm text-muted-foreground mb-3">
+              Journey Progress
+            </h3>
 
-            <div className="text-3xl font-bold">
-              {overallProgress}%
-            </div>
+            <ProgressRing
+              progress={overallProgress}
+              size={110}
+              strokeWidth={10}
+            />
 
-            <p className="text-xs text-muted-foreground">
-              completed
+            <p className="text-xs text-muted-foreground mt-2">
+              Keep going!
             </p>
           </div>
 
-          {/* 🔥 Journey Pace */}
           <div 
             className="glass-card p-5 cursor-pointer hover:opacity-80"
-            onClick={() => onNavigateToTimeline()}
+            onClick={onNavigateToTimeline}
           >
-
-
             <div className="flex justify-between mb-3">
               <span className="text-sm text-muted-foreground">Journey Pace</span>
               <Calendar className="text-accent" />
@@ -156,10 +147,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <p className="text-xs text-muted-foreground mt-1">
               Current: {paceStats.currentPace}/day | Required: {paceStats.requiredPace}/day
             </p>
-
           </div>
 
-          {/* Current Phase */}
           <div className="glass-card p-5">
             <div className="flex justify-between mb-3">
               <span className="text-sm text-muted-foreground">Current Phase</span>
@@ -177,106 +166,69 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
         </div>
 
-        {/* Main Content */}
-        <div className="grid lg:grid-cols-3 gap-6">
+        {/* MAIN TWO PANEL AREA */}
+        <div className="grid lg:grid-cols-2 gap-6">
 
-          {/* Left */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* LEFT - TODAY */}
+          <div>
 
-            {/* Today */}
-            <div>
-              <div className="flex justify-between mb-4">
-                <h2 className="text-xl font-semibold flex gap-2">
-                  <TrendingUp className="text-primary" />
-                  Today's Focus
-                </h2>
+            <div className="flex justify-between mb-4">
+              <h2 className="text-xl font-semibold flex gap-2">
+                <TrendingUp className="text-primary" />
+                Today's Focus
+              </h2>
 
-                <button
-                  onClick={onNavigateToRoadmap}
-                  className="text-sm text-primary flex items-center gap-1"
-                >
-                  View Roadmap <ChevronRight size={16} />
-                </button>
-              </div>
-
-              {todayTask ? (
-                <TaskCard
-                  task={todayTask}
-                  isToday
-                  onCompletionChange={handleCompletionChange}
-                />
-              ) : (
-                <div className="glass-card p-6 text-center">
-                  No task today
-                </div>
-              )}
+              <button
+                onClick={onNavigateToRoadmap}
+                className="text-sm text-primary flex items-center gap-1"
+              >
+                View Roadmap <ChevronRight size={16} />
+              </button>
             </div>
 
-            {/* Remaining Week */}
-            {weekTasks.length > 0 && (
-              <div>
-                <h2 className="text-lg font-semibold mb-4">
-                  Remaining This Week
-                </h2>
-
-                <div className="space-y-4">
-                  {weekTasks.map(task => (
-                    <TaskCard
-                      key={task.id}
-                      task={task}
-                      onCompletionChange={handleCompletionChange}
-                    />
-                  ))}
-                </div>
+            {todayTask ? (
+              <TaskCard
+                task={todayTask}
+                isToday
+                onCompletionChange={handleCompletionChange}
+              />
+            ) : (
+              <div className="glass-card p-6 text-center">
+                No task today
               </div>
             )}
 
           </div>
 
-          {/* Right */}
-          <div className="space-y-6">
+          {/* RIGHT - REMAINING WEEK (SCROLLABLE) */}
+          <div className="flex flex-col">
 
-            <div className="glass-card p-6 flex flex-col items-center">
-              <h3 className="text-sm text-muted-foreground mb-4">
-                Journey Progress
-              </h3>
+            <h2 className="text-lg font-semibold mb-4">
+              Remaining This Week
+            </h2>
 
-              <ProgressRing
-                progress={overallProgress}
-                size={140}
-                strokeWidth={10}
-              />
+            <div className="space-y-4 overflow-y-auto max-h-[420px] pr-2">
 
-              <p className="text-sm text-muted-foreground mt-4">
-                Keep going!
-              </p>
-            </div>
-
-            <div className="glass-card p-6">
-              <h3 className="text-sm text-muted-foreground mb-4">
-                Phase Progress
-              </h3>
-
-              <div className="space-y-4">
-                {phases.map(phase => (
-                  <ProgressBar
-                    key={phase.id}
-                    progress={phaseProgress[phase.id] || 0}
-                    label={phase.shortName}
-                    showLabel
-                    color={
-                      currentPhase.id === phase.id
-                        ? 'bg-primary'
-                        : 'bg-muted-foreground/30'
-                    }
-                    height={6}
+              {weekTasks.length ? (
+                weekTasks.map(task => (
+                  <TaskCard
+                    key={task.id}
+                    task={task}
+                    onCompletionChange={handleCompletionChange}
                   />
-                ))}
-              </div>
+                ))
+              ) : (
+                <div className="glass-card p-6 text-center text-muted-foreground">
+                  No remaining tasks 🎉
+                </div>
+              )}
+
             </div>
 
           </div>
+
         </div>
+
       </div>
     </div>
   );
