@@ -1,89 +1,37 @@
-🚀 Journey Navigator – Java Full Stack Roadmap Platform
-A personal roadmap + progress tracking platform to guide a learner day-by-day toward becoming a high-skill Java Full Stack Developer.
-
-Built with a modern frontend stack and designed to run both as a web app and desktop app.
-
-📌 Project Features
-📅 Daily roadmap tasks (phase → month → week → day)
-✅ Task completion tracking
-📊 Progress visualization by skill areas
-📝 Notes for daily learnings
-🎯 Project milestones & checklists
-💾 Local data persistence
-🖥️ Desktop app support (Tauri)
-🛠 Tech Stack
-Frontend:
-
-React
-TypeScript
-Vite
-Tailwind CSS
-shadcn-ui
-Desktop (optional):
-
-Tauri
-Rust
-Tools:
-
-Node.js
-npm
-Git
-📂 Run Project Locally
-1️⃣ Clone the repository
-git clone <YOUR_GIT_URL>
-
-2️⃣ Move into project folder
-cd <PROJECT_NAME>
-
-3️⃣ Install dependencies
-npm install
-
-4️⃣ Start development server
-npm run dev
-
-App will run at:
-
-http://localhost:8080
-
-(or shown in terminal)
-
-🖥 Run as Desktop App (Optional)
-Make sure you have installed:
-
-Node.js
-Rust
-Visual Studio Build Tools (MSVC)
-Windows SDK
-Then run:
-
-npm run tauri dev
-
-This launches the app as a native desktop application.
-
-✏️ Editing the Project
-You can edit the project using:
-
-✅ Locally (Recommended)
-Open the project in VS Code and modify files inside:
-
-src/
-
-✅ Directly on GitHub
-Open file
-Click ✏️ Edit
-Commit changes
-🚀 Deployment
-You can deploy the web version using any platform that supports Vite (Netlify, Vercel, etc.)
-
-Build command:
-
-npm run build
-
-📈 Goal of the Platform
-To provide a structured, distraction-free system that:
-
-Tells the user exactly what to do each day
-Tracks progress automatically
-Builds real-world full stack skills over time
-📄 License
-Open-source (modify as needed)
+🚀 Dev Path – Your Personal Full Stack Learning Companion
+Dev Path is a desktop + web learning roadmap application built to help developers follow a structured, day-by-day journey toward becoming a Java Full Stack Developer.
+It tracks your progress, streaks, projects, and learning pace — just like a real productivity app.
+Built using React, TypeScript, Tailwind CSS, and Tauri.
+✨ Features
+📅 Smart Learning Roadmap
+Day-by-day structured tasks
+Organized by weeks & phases
+Filter by phase, task type, and completion
+Search any topic instantly
+✅ Task Tracking with Backdated Completion
+Mark tasks completed anytime
+Edit completion date via date picker
+Clean, classy UI (no clutter)
+🔥 Streak System
+Tracks daily consistency
+Shows active days on calendar
+Motivates long-term discipline
+📊 Progress Analytics
+Overall progress percentage
+Phase-wise progress
+Learning pace (ahead / behind)
+📁 Project Tracker
+Track subtask completion
+Add project notes
+See started & completed dates
+💾 Persistent Offline Storage
+Data saved locally (no login required)
+Works even after reinstall/update
+Production-like desktop behaviour
+📤 Backup & Restore
+Export all progress to JSON
+Import anytime to restore data
+🖥 Desktop App (EXE / MSI)
+Built using Tauri
+Lightweight & fast
+Runs like native software
