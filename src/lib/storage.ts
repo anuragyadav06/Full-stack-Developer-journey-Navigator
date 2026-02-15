@@ -239,6 +239,108 @@ export function updateLastAccess() {
   setItem(STORAGE_KEYS.USER_PROGRESS, progress);
 }
 
+// 🔥 NEW FUNCTION - Update the journey start date
+export function setUserStartDate(newStartDate: string) {
+  const progress = getUserProgress();
+  progress.startDate = newStartDate;
+  setItem(STORAGE_KEYS.USER_PROGRESS, progress);
+}
+
+/* ===================== */
+/* 🔥 DYNAMIC DATE CALCULATION */
+/* ===================== */
+
+/**
+ * Calculate the actual date for a task based on journey start date and day number
+ * @param dayNumber - The day number of the task (1-559)
+ * @returns Date string in YYYY-MM-DD format
+ */
+export function getTaskDate(dayNumber: number): string {
+  const progress = getUserProgress();
+  const startDate = new Date(progress.startDate);
+  
+  // Add (dayNumber - 1) days to start date
+  const taskDate = new Date(startDate);
+  taskDate.setDate(taskDate.getDate() + (dayNumber - 1));
+  
+  // Format as YYYY-MM-DD
+  return taskDate.toISOString().split('T')[0];
+}
+
+/**
+ * Get the week number for a given day
+ * @param dayNumber - The day number (1-559)
+ * @returns Week number (1-80)
+ */
+export function getWeekNumber(dayNumber: number): number {
+  return Math.ceil(dayNumber / 7);
+}
+
+/**
+ * 🔥 NEW: Calculate dynamic phase dates based on tasks
+ * This finds the first and last task in a phase and calculates their dates
+ */
+export function getPhaseActualDates(
+  phaseId: string,
+  tasks: { id: string; phase: string; dayNumber: number }[]
+): { startDate: string; endDate: string } {
+  
+  // Get all tasks in this phase
+  const phaseTasks = tasks.filter(t => t.phase === phaseId);
+  
+  if (phaseTasks.length === 0) {
+    // Fallback if no tasks found
+    return { startDate: 'N/A', endDate: 'N/A' };
+  }
+  
+  // Sort by day number
+  phaseTasks.sort((a, b) => a.dayNumber - b.dayNumber);
+  
+  // Get first and last day numbers
+  const firstDay = phaseTasks[0].dayNumber;
+  const lastDay = phaseTasks[phaseTasks.length - 1].dayNumber;
+  
+  // Calculate actual dates
+  const startDate = getTaskDate(firstDay);
+  const endDate = getTaskDate(lastDay);
+  
+  return { startDate, endDate };
+}
+
+/**
+ * Format a date for display (e.g., "Jan 24, 2026")
+ */
+export function formatDateForDisplay(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', { 
+    month: 'short', 
+    day: 'numeric',
+    year: 'numeric'
+  });
+}
+
+/**
+ * Format a date range for display (e.g., "Jan 24 - Feb 15, 2026")
+ */
+export function formatDateRange(startDate: string, endDate: string): string {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  
+  const startMonth = start.toLocaleDateString('en-US', { month: 'short' });
+  const startDay = start.getDate();
+  const endMonth = end.toLocaleDateString('en-US', { month: 'short' });
+  const endDay = end.getDate();
+  const year = end.getFullYear();
+  
+  // If same month, show: "Jan 24 - 30, 2026"
+  if (startMonth === endMonth) {
+    return `${startMonth} ${startDay} - ${endDay}, ${year}`;
+  }
+  
+  // Different months: "Jan 24 - Feb 15, 2026"
+  return `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${year}`;
+}
+
 /* ===================== */
 /* PROGRESS CALCULATIONS */
 /* ===================== */
@@ -346,17 +448,18 @@ export function getJourneyStats(tasks: { id: string }[]) {
   const completions = getTaskCompletions();
 
   const startDate = new Date(progress.startDate);
-  const TOTAL_DAYS = 522;
+  const TOTAL_DAYS = 561;  
 
   const today = new Date();
 
-  const daysPassed = Math.max(
-    1,
-    Math.floor(
-      (today.getTime() - startDate.getTime()) /
-      (1000 * 60 * 60 * 24)
-    )
+  // 🔥 FIX: Calculate actual days passed (can be 0 or negative if before start)
+  const actualDaysPassed = Math.floor(
+    (today.getTime() - startDate.getTime()) /
+    (1000 * 60 * 60 * 24)
   );
+  
+  // For pace calculation, use at least 1 to avoid division by zero
+  const daysPassed = Math.max(1, actualDaysPassed);
 
   const endDate = new Date(startDate);
   endDate.setDate(endDate.getDate() + TOTAL_DAYS);
@@ -378,14 +481,27 @@ export function getJourneyStats(tasks: { id: string }[]) {
   const currentPace = completedTasks / daysPassed;
   const requiredPace = remainingTasks / Math.max(daysRemaining, 1);
 
+  // 🔥 FIX: On Day 1 (or before start), show "on-track" instead of "behind"
+  let paceStatus: 'ahead' | 'on-track' | 'behind';
+  
+  if (actualDaysPassed <= 1 && completedTasks === 0) {
+    // Day 1 or before start, no tasks completed yet = on track
+    paceStatus = 'on-track';
+  } else if (currentPace >= requiredPace) {
+    paceStatus = 'ahead';
+  } else {
+    paceStatus = 'behind';
+  }
+
   return {
     daysRemaining,
     remainingTasks,
     currentPace: currentPace.toFixed(2),
     requiredPace: requiredPace.toFixed(2),
-    paceStatus: currentPace >= requiredPace ? 'ahead' : 'behind'
+    paceStatus
   };
 }
+
 export function getTodayAndNextTask<T extends { id: string }>(tasks: T[]) {
   const completions = getTaskCompletions();
 
@@ -398,4 +514,3 @@ export function getTodayAndNextTask<T extends { id: string }>(tasks: T[]) {
     next: pendingTasks[1] || null
   };
 }
-

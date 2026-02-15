@@ -3,7 +3,9 @@ import { dailyTasks, phases } from '@/data/roadmapData';
 import { 
   getJourneyStats, 
   getUserProgress, 
-  calculatePhaseProgress 
+  calculatePhaseProgress,
+  getPhaseActualDates,
+  formatDateRange
 } from '@/lib/storage';
 
 import { ProgressBar } from '@/components/ProgressRing';
@@ -14,11 +16,33 @@ export const JourneyTimelineView: React.FC = () => {
   const stats = getJourneyStats(dailyTasks);
 
   const startDate = new Date(progress.startDate);
-  const TOTAL_DAYS = 522;
+  const TOTAL_DAYS = 559;  // 🔥 UPDATED from 522
 
   const today = new Date();
+  
+  // 🔥 FIX: Calculate days passed properly (no negative values)
+  const daysPassed = Math.max(
+    0,  // Never show negative
+    Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
+  );
+  
+  // Calculate end date
+  const endDate = new Date(startDate);
+  endDate.setDate(endDate.getDate() + TOTAL_DAYS);
+  
+  // Format dates for display
+  const startDateStr = startDate.toLocaleDateString('en-US', { 
+    month: 'short', 
+    day: 'numeric',
+    year: 'numeric'
+  });
+  
+  const endDateStr = endDate.toLocaleDateString('en-US', { 
+    month: 'short', 
+    day: 'numeric', 
+    year: 'numeric'
+  });
 
-  const daysPassed = TOTAL_DAYS - stats.daysRemaining;
   const percent = Math.min(100, Math.round((daysPassed / TOTAL_DAYS) * 100));
 
   return (
@@ -28,18 +52,31 @@ export const JourneyTimelineView: React.FC = () => {
         Journey Timeline
       </h1>
 
-      {/* Timeline Bar */}
-      <div className="relative h-4 bg-muted rounded-full overflow-hidden mb-12">
-
-        <div
-          className="absolute left-0 top-0 h-full bg-primary transition-all"
-          style={{ width: `${percent}%` }}
-        />
-
+      {/* Timeline Bar with Start/End Dates */}
+      <div className="mb-3">
+        
+        {/* 🔥 NEW: Date labels above the bar */}
+        <div className="flex justify-between text-sm text-muted-foreground mb-2 px-1">
+          <span>{startDateStr}</span>
+          <span>{endDateStr}</span>
+        </div>
+        
+        <div className="relative h-4 bg-muted rounded-full overflow-hidden">
+          <div
+            className="absolute left-0 top-0 h-full bg-primary transition-all"
+            style={{ width: `${percent}%` }}
+          />
+        </div>
+        
+        {/* Progress percentage below bar */}
+        <div className="text-center text-xs text-muted-foreground mt-1">
+          {percent}% Complete
+        </div>
+        
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 mt-8">
 
         <div className="glass-card p-4 text-center">
           <p className="text-sm text-muted-foreground">Days Passed</p>
@@ -59,9 +96,13 @@ export const JourneyTimelineView: React.FC = () => {
         <div className="glass-card p-4 text-center">
           <p className="text-sm text-muted-foreground">Status</p>
           <p className={`text-xl font-bold ${
-            stats.paceStatus === 'ahead' ? 'text-green-500' : 'text-red-500'
+            stats.paceStatus === 'ahead' ? 'text-green-500' : 
+            stats.paceStatus === 'on-track' ? 'text-blue-500' : 
+            'text-red-500'
           }`}>
-            {stats.paceStatus === 'ahead' ? 'Ahead' : 'Behind'}
+            {stats.paceStatus === 'ahead' ? 'Ahead' : 
+             stats.paceStatus === 'on-track' ? 'On Track' : 
+             'Behind'}
           </p>
         </div>
 
@@ -80,6 +121,15 @@ export const JourneyTimelineView: React.FC = () => {
             phase.id,
             dailyTasks
           );
+
+          // 🔥 Get dynamic phase dates
+          const { startDate, endDate } = getPhaseActualDates(
+            phase.id,
+            dailyTasks
+          );
+
+          // 🔥 Format the date range
+          const dateRangeText = formatDateRange(startDate, endDate);
 
           return (
             <div 
@@ -101,8 +151,9 @@ export const JourneyTimelineView: React.FC = () => {
                   </span>
                 </div>
 
+                {/* 🔥 DYNAMIC date range */}
                 <span className="text-sm text-muted-foreground">
-                  {phase.startDate} → {phase.endDate}
+                  {dateRangeText}
                 </span>
 
               </div>

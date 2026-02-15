@@ -1,23 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { Lock, Unlock, Moon, Sun } from "lucide-react";
-
-const DEFAULT_START_DATE = "2026-01-24";
+import { getUserProgress, setUserStartDate } from "@/lib/storage";
 
 const Settings: React.FC = () => {
 
   /* ------------------ Journey Date ------------------ */
-
-  const [startDate, setStartDate] = useState(
-    localStorage.getItem("journeyStartDate") || DEFAULT_START_DATE
-  );
+  
+  // 🔥 READING FROM THE CORRECT STORAGE
+  const [startDate, setStartDate] = useState(() => {
+    const progress = getUserProgress();
+    return progress.startDate;
+  });
 
   const [locked, setLocked] = useState(
     localStorage.getItem("journeyLocked") === "false" ? false : true
   );
 
-  useEffect(() => {
-    localStorage.setItem("journeyStartDate", startDate);
-  }, [startDate]);
+  // 🔥 HANDLE DATE CHANGE WITH IMMEDIATE FEEDBACK
+  const handleDateChange = (newDate: string) => {
+    if (locked) return;
+    
+    setStartDate(newDate);
+    setUserStartDate(newDate);
+    
+    // 🚀 FORCE RELOAD TO UPDATE ALL COMPONENTS
+    // This ensures Dashboard, Timeline, etc all see the new date
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
+  };
 
   useEffect(() => {
     localStorage.setItem("journeyLocked", String(locked));
@@ -73,7 +84,7 @@ const Settings: React.FC = () => {
               type="date"
               value={startDate}
               disabled={locked}
-              onChange={(e) => setStartDate(e.target.value)}
+              onChange={(e) => handleDateChange(e.target.value)}
               className={`px-4 py-2 rounded-lg bg-muted transition ${
                 locked ? "opacity-50 cursor-not-allowed" : ""
               }`}
@@ -90,11 +101,14 @@ const Settings: React.FC = () => {
           </div>
 
           <p className="text-sm text-muted-foreground">
-            Changing this will reschedule the entire roadmap and tasks.
+            {locked 
+              ? "Unlock to change the journey start date. This will reschedule your entire roadmap."
+              : "⚠️ Changing this will reschedule the entire roadmap and reload the page."}
           </p>
 
         </div>
 
+        
       </div>
     </div>
   );

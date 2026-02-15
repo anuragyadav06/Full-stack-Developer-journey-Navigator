@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Check, Clock, BookOpen, Code, Wrench, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
+import { Check, Clock, BookOpen, Code, Wrench, RefreshCw, ChevronDown, ChevronUp, Calendar } from 'lucide-react';
 import { DailyTask, TaskType } from '@/data/roadmapData';
-import { getTaskCompletions, setTaskCompletion, getTaskNotes, setTaskNote } from '@/lib/storage';
+import { getTaskCompletions, setTaskCompletion, getTaskNotes, setTaskNote, getTaskDate } from '@/lib/storage';
 
 interface TaskCardProps {
   task: DailyTask;
@@ -29,6 +29,14 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   
   const config = taskTypeConfig[task.taskType];
   const Icon = config.icon;
+  
+  // 🔥 Get dynamic task date
+  const taskDate = getTaskDate(task.dayNumber);
+  const formattedDate = new Date(taskDate).toLocaleDateString('en-US', { 
+    month: 'short', 
+    day: 'numeric',
+    year: 'numeric'
+  });
   
   useEffect(() => {
     const completions = getTaskCompletions();
@@ -70,10 +78,16 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         
         {/* Task content */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-3 mb-2 flex-wrap">
             {/* Day badge */}
             <span className="text-xs font-mono text-muted-foreground">
               Day {task.dayNumber}
+            </span>
+            
+            {/* 🔥 Dynamic Date badge */}
+            <span className="text-xs font-mono text-muted-foreground flex items-center gap-1">
+              <Calendar className="w-3 h-3" />
+              {formattedDate}
             </span>
             
             {/* Task type badge */}

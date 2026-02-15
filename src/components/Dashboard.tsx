@@ -135,14 +135,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </p>
 
             <p className={`text-xs mt-2 ${
-              paceStats.paceStatus === 'ahead'
-                ? 'text-green-500'
-                : 'text-red-500'
-            }`}>
-              {paceStats.paceStatus === 'ahead'
-                ? 'Ahead of schedule 🔥'
-                : 'Behind schedule ⚠️'}
-            </p>
+  paceStats.paceStatus === 'ahead'
+    ? 'text-green-500'
+    : paceStats.paceStatus === 'on-track'
+    ? 'text-blue-500'
+    : 'text-red-500'
+}`}>
+  {paceStats.paceStatus === 'ahead'
+    ? 'Ahead of schedule 🔥'
+    : paceStats.paceStatus === 'on-track'
+    ? 'On track ✅'
+    : 'Behind schedule ⚠️'}
+</p>
 
             <p className="text-xs text-muted-foreground mt-1">
               Current: {paceStats.currentPace}/day | Required: {paceStats.requiredPace}/day
