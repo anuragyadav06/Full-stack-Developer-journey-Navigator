@@ -4,9 +4,9 @@ import { ProgressRing } from './ProgressRing';
 import { TaskCard } from './TaskCard';
 import { dailyTasks, phases } from '@/data/roadmapData';
 
-import { 
-  getStreakData, 
-  calculateOverallProgress, 
+import {
+  getStreakData,
+  calculateOverallProgress,
   calculatePhaseProgress,
   getCurrentTask,
   getRemainingWeekTasks,
@@ -23,7 +23,7 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({
-  onNavigateToRoadmap, 
+  onNavigateToRoadmap,
   onNavigateToStreaks,
   onNavigateToTimeline
 }) => {
@@ -40,8 +40,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
     setOverallProgress(calculateOverallProgress(dailyTasks));
 
     const phaseData: Record<string, number> = {};
-    phases.forEach(p => {
-      phaseData[p.id] = calculatePhaseProgress(p.id, dailyTasks);
+    phases.forEach(phase => {
+      phaseData[phase.id] = calculatePhaseProgress(phase.id, dailyTasks);
     });
     setPhaseProgress(phaseData);
 
@@ -63,7 +63,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const today = new Date().toISOString().split('T')[0];
 
   const currentPhase =
-    phases.find(p => today >= p.startDate && today <= p.endDate) || phases[0];
+    phases.find(
+      phase => today >= phase.startDate && today <= phase.endDate
+    ) || phases[0];
 
   const paceStats = getJourneyStats(dailyTasks);
 
@@ -82,6 +84,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
+          {/* STREAK */}
           <div
             className="glass-card p-5 cursor-pointer hover:opacity-80"
             onClick={onNavigateToStreaks}
@@ -101,6 +104,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </p>
           </div>
 
+          {/* JOURNEY PROGRESS */}
           <div className="glass-card p-6 flex flex-col items-center justify-center">
             <h3 className="text-sm text-muted-foreground mb-3">
               Journey Progress
@@ -117,7 +121,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </p>
           </div>
 
-          <div 
+          {/* JOURNEY PACE */}
+          <div
             className="glass-card p-5 cursor-pointer hover:opacity-80"
             onClick={onNavigateToTimeline}
           >
@@ -134,25 +139,28 @@ export const Dashboard: React.FC<DashboardProps> = ({
               {paceStats.remainingTasks} tasks remaining
             </p>
 
-            <p className={`text-xs mt-2 ${
-  paceStats.paceStatus === 'ahead'
-    ? 'text-green-500'
-    : paceStats.paceStatus === 'on-track'
-    ? 'text-blue-500'
-    : 'text-red-500'
-}`}>
-  {paceStats.paceStatus === 'ahead'
-    ? 'Ahead of schedule 🔥'
-    : paceStats.paceStatus === 'on-track'
-    ? 'On track ✅'
-    : 'Behind schedule ⚠️'}
-</p>
+            <p
+              className={`text-xs mt-2 ${
+                paceStats.paceStatus === 'ahead'
+                  ? 'text-green-500'
+                  : paceStats.paceStatus === 'on-track'
+                  ? 'text-blue-500'
+                  : 'text-red-500'
+              }`}
+            >
+              {paceStats.paceStatus === 'ahead'
+                ? 'Ahead of schedule 🔥'
+                : paceStats.paceStatus === 'on-track'
+                ? 'On track ✅'
+                : 'Behind schedule ⚠️'}
+            </p>
 
             <p className="text-xs text-muted-foreground mt-1">
               Current: {paceStats.currentPace}/day | Required: {paceStats.requiredPace}/day
             </p>
           </div>
 
+          {/* CURRENT PHASE */}
           <div className="glass-card p-5">
             <div className="flex justify-between mb-3">
               <span className="text-sm text-muted-foreground">Current Phase</span>
@@ -170,12 +178,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
         </div>
 
-        {/* MAIN TWO PANEL AREA */}
+        {/* MAIN AREA */}
         <div className="grid lg:grid-cols-2 gap-6">
 
-          {/* LEFT - TODAY */}
+          {/* TODAY PANEL */}
           <div>
-
             <div className="flex justify-between mb-4">
               <h2 className="text-xl font-semibold flex gap-2">
                 <TrendingUp className="text-primary" />
@@ -201,18 +208,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 No task today
               </div>
             )}
-
           </div>
 
-          {/* RIGHT - REMAINING WEEK (SCROLLABLE) */}
+          {/* WEEK PANEL */}
           <div className="flex flex-col">
-
             <h2 className="text-lg font-semibold mb-4">
               Remaining This Week
             </h2>
 
             <div className="space-y-4 overflow-y-auto max-h-[420px] pr-2">
-
               {weekTasks.length ? (
                 weekTasks.map(task => (
                   <TaskCard
@@ -226,9 +230,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   No remaining tasks 🎉
                 </div>
               )}
-
             </div>
-
           </div>
 
         </div>

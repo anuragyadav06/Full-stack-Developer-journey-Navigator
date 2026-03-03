@@ -448,17 +448,17 @@ export function getJourneyStats(tasks: { id: string }[]) {
   const completions = getTaskCompletions();
 
   const startDate = new Date(progress.startDate);
-  const TOTAL_DAYS = 561;  
+
+  // ✅ Always derive from tasks length
+  const TOTAL_DAYS = tasks.length;
 
   const today = new Date();
 
-  // 🔥 FIX: Calculate actual days passed (can be 0 or negative if before start)
   const actualDaysPassed = Math.floor(
     (today.getTime() - startDate.getTime()) /
     (1000 * 60 * 60 * 24)
   );
-  
-  // For pace calculation, use at least 1 to avoid division by zero
+
   const daysPassed = Math.max(1, actualDaysPassed);
 
   const endDate = new Date(startDate);
@@ -481,16 +481,19 @@ export function getJourneyStats(tasks: { id: string }[]) {
   const currentPace = completedTasks / daysPassed;
   const requiredPace = remainingTasks / Math.max(daysRemaining, 1);
 
-  // 🔥 FIX: On Day 1 (or before start), show "on-track" instead of "behind"
+  // ✅ Add tolerance to avoid stupid decimal punishment
+  const tolerance = 0.05;
+
   let paceStatus: 'ahead' | 'on-track' | 'behind';
-  
+
   if (actualDaysPassed <= 1 && completedTasks === 0) {
-    // Day 1 or before start, no tasks completed yet = on track
     paceStatus = 'on-track';
-  } else if (currentPace >= requiredPace) {
+  } else if (currentPace > requiredPace + tolerance) {
     paceStatus = 'ahead';
-  } else {
+  } else if (currentPace < requiredPace - tolerance) {
     paceStatus = 'behind';
+  } else {
+    paceStatus = 'on-track';
   }
 
   return {
