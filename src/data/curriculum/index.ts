@@ -1,6 +1,3 @@
-// Curriculum Index - Exports all phase curricula
-// Total duration: Jan 24, 2026 - Jun 30, 2027 (523 days)
-
 export { phase1JavaCore, type CurriculumTask } from './phase1-java-core';
 export { phase2DSA } from './phase2-dsa';
 export { phase3Database } from './phase3-database';
@@ -20,13 +17,13 @@ import { phase7Capstone } from './phase7-capstone';
 
 // Combined curriculum in order
 export const fullCurriculum = [
-  ...phase1JavaCore,    // Weeks 1-8 (56 days)
-  ...phase2DSA,         // Weeks 9-20 (84 days)
-  ...phase3Database,    // Weeks 21-26 (42 days)
-  ...phase4Frontend,    // Weeks 27-38 (84 days)
-  ...phase5Backend,     // Weeks 39-54 (112 days)
-  ...phase6Fullstack,   // Weeks 55-66 (84 days)
-  ...phase7Capstone,    // Weeks 67-75 (63 days)
+  ...phase1JavaCore,   
+  ...phase2DSA,        
+  ...phase3Database,   
+  ...phase4Frontend,   
+  ...phase5Backend,    
+  ...phase6Fullstack,  
+  ...phase7Capstone,   
 ];
 
 // Summary statistics

@@ -16,34 +16,44 @@ export const JourneyTimelineView: React.FC = () => {
   const stats = getJourneyStats(dailyTasks);
 
   const startDate = new Date(progress.startDate);
-  const TOTAL_DAYS = 559;  // 🔥 UPDATED from 522
+
+  // 🔥 Dynamically derive total days from task count
+  const TOTAL_DAYS = dailyTasks.length;
 
   const today = new Date();
-  
-  // 🔥 FIX: Calculate days passed properly (no negative values)
+
+  // 🔥 Calculate days passed safely (never negative)
   const daysPassed = Math.max(
-    0,  // Never show negative
-    Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
+    0,
+    Math.floor(
+      (today.getTime() - startDate.getTime()) /
+      (1000 * 60 * 60 * 24)
+    )
   );
-  
-  // Calculate end date
+
+  // 🔥 Calculate dynamic end date
   const endDate = new Date(startDate);
   endDate.setDate(endDate.getDate() + TOTAL_DAYS);
-  
-  // Format dates for display
+
+  // 🔥 Format start date
   const startDateStr = startDate.toLocaleDateString('en-US', { 
     month: 'short', 
     day: 'numeric',
     year: 'numeric'
   });
-  
+
+  // 🔥 Format end date
   const endDateStr = endDate.toLocaleDateString('en-US', { 
     month: 'short', 
     day: 'numeric', 
     year: 'numeric'
   });
 
-  const percent = Math.min(100, Math.round((daysPassed / TOTAL_DAYS) * 100));
+  // 🔥 Clamp percentage safely
+  const percent = Math.min(
+    100,
+    Math.round((daysPassed / TOTAL_DAYS) * 100)
+  );
 
   return (
     <div className="flex-1 p-8 overflow-y-auto">
@@ -52,30 +62,29 @@ export const JourneyTimelineView: React.FC = () => {
         Journey Timeline
       </h1>
 
-      {/* Timeline Bar with Start/End Dates */}
+      {/* Timeline Bar */}
       <div className="mb-3">
-        
-        {/* 🔥 NEW: Date labels above the bar */}
+
+        {/* Date Labels */}
         <div className="flex justify-between text-sm text-muted-foreground mb-2 px-1">
           <span>{startDateStr}</span>
           <span>{endDateStr}</span>
         </div>
-        
+
         <div className="relative h-4 bg-muted rounded-full overflow-hidden">
           <div
             className="absolute left-0 top-0 h-full bg-primary transition-all"
             style={{ width: `${percent}%` }}
           />
         </div>
-        
-        {/* Progress percentage below bar */}
+
         <div className="text-center text-xs text-muted-foreground mt-1">
           {percent}% Complete
         </div>
-        
+
       </div>
 
-      {/* Stats */}
+      {/* Stats Section */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 mt-8">
 
         <div className="glass-card p-4 text-center">
@@ -85,7 +94,9 @@ export const JourneyTimelineView: React.FC = () => {
 
         <div className="glass-card p-4 text-center">
           <p className="text-sm text-muted-foreground">Days Left</p>
-          <p className="text-xl font-bold">{stats.daysRemaining}</p>
+          <p className="text-xl font-bold">
+            {Math.max(0, TOTAL_DAYS - daysPassed)}
+          </p>
         </div>
 
         <div className="glass-card p-4 text-center">
@@ -108,7 +119,7 @@ export const JourneyTimelineView: React.FC = () => {
 
       </div>
 
-      {/* Phases With Progress */}
+      {/* Phase Progress Section */}
       <h2 className="text-lg font-semibold mb-4">
         Phase Progress
       </h2>
@@ -122,13 +133,11 @@ export const JourneyTimelineView: React.FC = () => {
             dailyTasks
           );
 
-          // 🔥 Get dynamic phase dates
           const { startDate, endDate } = getPhaseActualDates(
             phase.id,
             dailyTasks
           );
 
-          // 🔥 Format the date range
           const dateRangeText = formatDateRange(startDate, endDate);
 
           return (
@@ -137,7 +146,6 @@ export const JourneyTimelineView: React.FC = () => {
               className="glass-card p-4 space-y-2"
             >
 
-              {/* Phase Header */}
               <div className="flex items-center justify-between">
 
                 <div className="flex items-center gap-3">
@@ -151,14 +159,12 @@ export const JourneyTimelineView: React.FC = () => {
                   </span>
                 </div>
 
-                {/* 🔥 DYNAMIC date range */}
                 <span className="text-sm text-muted-foreground">
                   {dateRangeText}
                 </span>
 
               </div>
 
-              {/* Progress Bar */}
               <ProgressBar
                 progress={phaseProgress}
                 label={`${phaseProgress}%`}

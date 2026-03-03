@@ -1,6 +1,3 @@
-// Phase 1: Java Core Mastery (Weeks 1-8) - Jan 24 - Mar 20, 2026
-// Includes revisiting arrays, strings, recursion at intermediate level
-
 import { TaskType } from '../roadmapData';
 
 export interface CurriculumTask {

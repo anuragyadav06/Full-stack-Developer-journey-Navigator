@@ -411,11 +411,11 @@ export const projects: Project[] = [
 // Helper function to determine phase from day number
 function getPhaseForDay(dayNumber: number): string {
   if (dayNumber <= 56) return 'java-core';
-  if (dayNumber <= 140) return 'dsa';
-  if (dayNumber <= 182) return 'database';
-  if (dayNumber <= 266) return 'frontend';
-  if (dayNumber <= 378) return 'backend';
-  if (dayNumber <= 462) return 'fullstack';
+  if (dayNumber <= 147) return 'dsa';      // ✅ Days 57-147 (91 days)
+  if (dayNumber <= 189) return 'database'; // ✅ Days 148-189 (42 days)
+  if (dayNumber <= 273) return 'frontend'; // ✅ Days 190-273 (84 days)
+  if (dayNumber <= 399) return 'backend';  // ✅ Days 274-399 (126 days)
+  if (dayNumber <= 504) return 'fullstack';// ✅ Days 400-505 (106 days)
   return 'capstone';
 }
 
@@ -423,15 +423,15 @@ function getPhaseForDay(dayNumber: number): string {
 export const generateDailyTasks = (): DailyTask[] => {
   const tasks: DailyTask[] = [];
   const startDate = new Date('2026-01-24');
-  
+
   fullCurriculum.forEach((task: CurriculumTask, index: number) => {
     const currentDate = new Date(startDate);
     currentDate.setDate(startDate.getDate() + index);
-    
+
     const dayNumber = index + 1;
     const weekNumber = Math.floor(index / 7) + 1;
     const phase = getPhaseForDay(dayNumber);
-    
+
     tasks.push({
       id: `day-${dayNumber}`,
       date: currentDate.toISOString().split('T')[0],
@@ -445,7 +445,7 @@ export const generateDailyTasks = (): DailyTask[] => {
       week: weekNumber
     });
   });
-  
+
   return tasks;
 };
 
