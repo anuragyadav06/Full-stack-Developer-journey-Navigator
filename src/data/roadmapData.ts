@@ -414,8 +414,8 @@ function getPhaseForDay(dayNumber: number): string {
   if (dayNumber <= 147) return 'dsa';      // ✅ Days 57-147 (91 days)
   if (dayNumber <= 189) return 'database'; // ✅ Days 148-189 (42 days)
   if (dayNumber <= 273) return 'frontend'; // ✅ Days 190-273 (84 days)
-  if (dayNumber <= 399) return 'backend';  // ✅ Days 274-399 (126 days)
-  if (dayNumber <= 504) return 'fullstack';// ✅ Days 400-505 (106 days)
+  if (dayNumber <= 406) return 'backend';  // ✅ Days 274-399 (126 days)
+  if (dayNumber <= 525) return 'fullstack';// ✅ Days 400-505 (106 days)
   return 'capstone';
 }
 

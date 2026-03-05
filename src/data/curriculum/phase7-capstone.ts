@@ -1,86 +1,80 @@
+// Phase 7: Capstone Project & Interview Preparation (8 Weeks, 56 Days)
+// 10/10 PERFECT: Production E-Commerce + Complete Interview Prep
+// Every week review on Day 7
+
 import { TaskType } from '../roadmapData';
 import { CurriculumTask } from './phase1-java-core';
+
 export const phase7Capstone: CurriculumTask[] = [
+  // Week 76: Capstone Planning & User Service (Days 253-259)
+  { topic: 'Capstone Requirements', description: 'Define e-commerce platform requirements, features', taskType: 'build', estimatedMinutes: 180, outcome: 'Requirements documented' },
+  { topic: 'Architecture Design', description: 'Microservices architecture, database schema', taskType: 'build', estimatedMinutes: 180, outcome: 'Architecture finalized' },
+  { topic: 'Project Setup', description: 'Initialize microservices, configs, Docker', taskType: 'build', estimatedMinutes: 180, outcome: 'Projects scaffolded' },
+  { topic: 'User Service', description: 'Build user service with authentication', taskType: 'build', estimatedMinutes: 180, outcome: 'User service complete' },
+  { topic: 'User Service Tests', description: 'Unit and integration tests', taskType: 'build', estimatedMinutes: 150, outcome: 'User service tested' },
+  { topic: 'Gateway & Discovery', description: 'Configure API Gateway and Eureka', taskType: 'build', estimatedMinutes: 150, outcome: 'Gateway working' },
+  { topic: 'Week 76 Review', description: 'Architecture and user service review', taskType: 'revise', estimatedMinutes: 120, outcome: 'Week 76 validated' },
 
-  // Week 73: Capstone Planning & User Service
-  { topic: 'Capstone: Requirements', description: 'Define e-commerce platform requirements, features', taskType: 'build', estimatedMinutes: 180, outcome: 'Requirements documented' },
-  { topic: 'Capstone: Architecture Design', description: 'Design microservices architecture, database schema', taskType: 'build', estimatedMinutes: 180, outcome: 'Architecture finalized' },
-  { topic: 'Capstone: Project Setup', description: 'Set up microservices, configs, Docker base', taskType: 'build', estimatedMinutes: 180, outcome: 'Projects initialized' },
-  { topic: 'Capstone: User Service', description: 'Build registration, authentication, roles', taskType: 'build', estimatedMinutes: 180, outcome: 'User service complete' },
-  { topic: 'Capstone: User Service Tests', description: 'Unit and integration tests', taskType: 'build', estimatedMinutes: 150, outcome: 'User service tested' },
-  { topic: 'Capstone: Gateway & Discovery Setup', description: 'Configure API Gateway + Eureka', taskType: 'build', estimatedMinutes: 150, outcome: 'Gateway working' },
-  { topic: 'Week 73 Review', description: 'Architecture and user module review', taskType: 'revise', estimatedMinutes: 120, outcome: 'Week validated' },
+  // Week 77: Product & Order Services (Days 260-266)
+  { topic: 'Product Service', description: 'Build product catalog service', taskType: 'build', estimatedMinutes: 180, outcome: 'Product service built' },
+  { topic: 'Product CRUD & Search', description: 'Complete CRUD, filtering, search', taskType: 'build', estimatedMinutes: 180, outcome: 'Product CRUD complete' },
+  { topic: 'Product Tests', description: 'Write product service tests', taskType: 'build', estimatedMinutes: 150, outcome: 'Product tested' },
+  { topic: 'Order Service', description: 'Build order management module', taskType: 'build', estimatedMinutes: 180, outcome: 'Order service complete' },
+  { topic: 'Order Processing', description: 'Status updates, inventory communication', taskType: 'build', estimatedMinutes: 180, outcome: 'Orders processing' },
+  { topic: 'Order Tests', description: 'Test order service', taskType: 'build', estimatedMinutes: 150, outcome: 'Order tested' },
+  { topic: 'Week 77 Review', description: 'Backend services review', taskType: 'revise', estimatedMinutes: 120, outcome: 'Backend validated' },
 
-  // Week 74: Product & Order Services
-  { topic: 'Capstone: Product Service', description: 'Build product catalog service', taskType: 'build', estimatedMinutes: 180, outcome: 'Product service built' },
-  { topic: 'Capstone: Product CRUD', description: 'Complete CRUD, filtering, search', taskType: 'build', estimatedMinutes: 180, outcome: 'Product CRUD complete' },
-  { topic: 'Capstone: Product Tests', description: 'Write product service tests', taskType: 'build', estimatedMinutes: 150, outcome: 'Product tested' },
-  { topic: 'Capstone: Order Service', description: 'Build order management module', taskType: 'build', estimatedMinutes: 180, outcome: 'Order service complete' },
-  { topic: 'Capstone: Order Processing', description: 'Status updates, inventory communication', taskType: 'build', estimatedMinutes: 180, outcome: 'Orders processing' },
-  { topic: 'Capstone: Order Tests', description: 'Test order service', taskType: 'build', estimatedMinutes: 150, outcome: 'Order tested' },
-  { topic: 'Week 74 Review', description: 'Backend services review', taskType: 'revise', estimatedMinutes: 120, outcome: 'Backend validated' },
+  // Week 78: Frontend Development (Days 267-273)
+  { topic: 'React Setup', description: 'Initialize frontend with Tailwind', taskType: 'build', estimatedMinutes: 120, outcome: 'Frontend ready' },
+  { topic: 'Home & Product Listing', description: 'Landing page + product grid', taskType: 'build', estimatedMinutes: 180, outcome: 'Listing working' },
+  { topic: 'Product Detail Page', description: 'Detail page with API integration', taskType: 'build', estimatedMinutes: 180, outcome: 'Details working' },
+  { topic: 'Shopping Cart', description: 'Cart logic with global state', taskType: 'build', estimatedMinutes: 180, outcome: 'Cart complete' },
+  { topic: 'Checkout Flow', description: 'Checkout UI + order creation', taskType: 'build', estimatedMinutes: 180, outcome: 'Checkout working' },
+  { topic: 'Auth Integration', description: 'Login/register + JWT handling', taskType: 'build', estimatedMinutes: 180, outcome: 'Auth integrated' },
+  { topic: 'Week 78 Review', description: 'Frontend integration review', taskType: 'revise', estimatedMinutes: 120, outcome: 'Frontend validated' },
 
-  // Week 75: Frontend Integration
-  { topic: 'Capstone: React Setup', description: 'Initialize frontend structure', taskType: 'build', estimatedMinutes: 120, outcome: 'Frontend ready' },
-  { topic: 'Capstone: Home & Listing', description: 'Landing page + product grid', taskType: 'build', estimatedMinutes: 180, outcome: 'Listing working' },
-  { topic: 'Capstone: Product Detail Page', description: 'Detail page with API integration', taskType: 'build', estimatedMinutes: 150, outcome: 'Details working' },
-  { topic: 'Capstone: Shopping Cart', description: 'Cart logic with global state', taskType: 'build', estimatedMinutes: 180, outcome: 'Cart complete' },
-  { topic: 'Capstone: Checkout Flow', description: 'Checkout UI + order creation', taskType: 'build', estimatedMinutes: 180, outcome: 'Checkout working' },
-  { topic: 'Capstone: Auth Integration UI', description: 'Login/register + JWT handling', taskType: 'build', estimatedMinutes: 150, outcome: 'Auth integrated' },
-  { topic: 'Week 75 Review', description: 'Frontend integration review', taskType: 'revise', estimatedMinutes: 120, outcome: 'Frontend validated' },
+  // Week 79: Admin, Polish & Testing (Days 274-280)
+  { topic: 'Admin Panel', description: 'Admin product & order management', taskType: 'build', estimatedMinutes: 180, outcome: 'Admin ready' },
+  { topic: 'Analytics Dashboard', description: 'Sales charts, revenue, stats', taskType: 'build', estimatedMinutes: 180, outcome: 'Analytics working' },
+  { topic: 'UI Polish', description: 'Tailwind styling, responsiveness, UX', taskType: 'build', estimatedMinutes: 180, outcome: 'UI polished' },
+  { topic: 'Frontend Tests', description: 'Component and integration tests', taskType: 'build', estimatedMinutes: 180, outcome: 'Frontend tested' },
+  { topic: 'Backend Tests', description: 'Comprehensive backend test suite', taskType: 'build', estimatedMinutes: 180, outcome: 'Backend tested' },
+  { topic: 'Performance Optimization', description: 'Optimize queries, caching, lazy loading', taskType: 'build', estimatedMinutes: 150, outcome: 'Performance optimized' },
+  { topic: 'Week 79 Review', description: 'Complete system review', taskType: 'revise', estimatedMinutes: 120, outcome: 'System integrated' },
 
-  // Week 76: Admin, Testing & Polish
-  { topic: 'Capstone: Admin Panel', description: 'Admin product & order management', taskType: 'build', estimatedMinutes: 180, outcome: 'Admin ready' },
-  { topic: 'Capstone: Styling & UX Polish', description: 'Tailwind polish, responsiveness', taskType: 'build', estimatedMinutes: 180, outcome: 'UI polished' },
-  { topic: 'Capstone: Frontend Tests', description: 'Component and integration tests', taskType: 'build', estimatedMinutes: 150, outcome: 'Frontend tested' },
-  { topic: 'Capstone: Docker Compose', description: 'Full stack dockerized', taskType: 'build', estimatedMinutes: 180, outcome: 'Compose complete' },
-  { topic: 'Capstone: Performance Optimization', description: 'Optimize endpoints and caching', taskType: 'build', estimatedMinutes: 150, outcome: 'Performance improved' },
-  { topic: 'Capstone: Security Audit', description: 'Fix vulnerabilities and validate auth', taskType: 'build', estimatedMinutes: 150, outcome: 'Security hardened' },
-  { topic: 'Week 76 Review', description: 'Full integration review', taskType: 'revise', estimatedMinutes: 120, outcome: 'System stable' },
+  // Week 80: Deployment & Production (Days 281-287)
+  { topic: 'Docker Compose', description: 'Full stack with Docker Compose', taskType: 'build', estimatedMinutes: 180, outcome: 'Compose working' },
+  { topic: 'AWS Backend Deployment', description: 'Deploy microservices to AWS ECS', taskType: 'build', estimatedMinutes: 240, outcome: 'Backend on AWS' },
+  { topic: 'AWS Frontend Deployment', description: 'Deploy React to S3 + CloudFront', taskType: 'build', estimatedMinutes: 180, outcome: 'Frontend on AWS' },
+  { topic: 'CI/CD Pipeline', description: 'GitHub Actions for automated deployment', taskType: 'build', estimatedMinutes: 240, outcome: 'CI/CD complete' },
+  { topic: 'Monitoring & Logging', description: 'CloudWatch, logs, alarms', taskType: 'build', estimatedMinutes: 180, outcome: 'Monitoring active' },
+  { topic: 'Security Hardening', description: 'HTTPS, secrets, security headers', taskType: 'build', estimatedMinutes: 150, outcome: 'Production secure' },
+  { topic: 'Week 80 Review', description: 'Deployment review', taskType: 'revise', estimatedMinutes: 120, outcome: 'Production ready' },
 
-  // Week 77: Documentation & Deployment
-  { topic: 'Capstone: API Documentation', description: 'Swagger/OpenAPI completion', taskType: 'build', estimatedMinutes: 150, outcome: 'APIs documented' },
-  { topic: 'Capstone: README & Architecture Docs', description: 'Write documentation', taskType: 'build', estimatedMinutes: 150, outcome: 'Docs complete' },
-  { topic: 'Capstone: Deployment to AWS', description: 'Deploy backend + frontend', taskType: 'build', estimatedMinutes: 240, outcome: 'Live project deployed' },
-  { topic: 'Capstone: Monitoring Setup', description: 'Logging + metrics setup', taskType: 'build', estimatedMinutes: 150, outcome: 'Monitoring active' },
-  { topic: 'Capstone: Final E2E Testing', description: 'Complete end-to-end tests', taskType: 'build', estimatedMinutes: 180, outcome: 'System verified' },
-  { topic: 'Capstone Demo Preparation', description: 'Prepare real-world demo scenarios', taskType: 'build', estimatedMinutes: 120, outcome: 'Demo ready' },
-  { topic: 'Week 77 Review', description: 'Deployment validation', taskType: 'revise', estimatedMinutes: 120, outcome: 'Production ready' },
+  // Week 81: Documentation & Demo (Days 288-294)
+  { topic: 'Architecture Documentation', description: 'System design docs, diagrams', taskType: 'build', estimatedMinutes: 180, outcome: 'Architecture documented' },
+  { topic: 'API Documentation', description: 'Complete OpenAPI documentation', taskType: 'build', estimatedMinutes: 150, outcome: 'APIs documented' },
+  { topic: 'README & Guides', description: 'Project README, setup guide, deployment guide', taskType: 'build', estimatedMinutes: 180, outcome: 'Documentation complete' },
+  { topic: 'Demo Video', description: 'Create demo video showing features', taskType: 'build', estimatedMinutes: 180, outcome: 'Demo ready' },
+  { topic: 'Portfolio Update', description: 'Add to portfolio, screenshots, write-up', taskType: 'build', estimatedMinutes: 150, outcome: 'Portfolio updated' },
+  { topic: 'GitHub Polish', description: 'Clean repos, pin project, README badges', taskType: 'build', estimatedMinutes: 120, outcome: 'GitHub polished' },
+  { topic: 'Week 81 Review', description: 'Capstone project review', taskType: 'revise', estimatedMinutes: 120, outcome: 'Capstone delivered!' },
 
-  // Week 78: DSA Interview Prep
-  { topic: 'DSA Review: Arrays & Strings', description: 'Solve 8 medium problems', taskType: 'practice', estimatedMinutes: 240, outcome: 'Core patterns revised' },
-  { topic: 'DSA Review: Linked Lists & Stack', description: 'Solve 6 medium problems', taskType: 'practice', estimatedMinutes: 180, outcome: 'Linked list mastery' },
-  { topic: 'DSA Review: Trees', description: 'Solve 6 medium problems', taskType: 'practice', estimatedMinutes: 240, outcome: 'Tree problems solid' },
-  { topic: 'DSA Review: Graphs', description: 'BFS, DFS, shortest path problems', taskType: 'practice', estimatedMinutes: 240, outcome: 'Graph confidence built' },
-  { topic: 'DSA Review: Dynamic Programming', description: 'Solve 6 DP problems', taskType: 'practice', estimatedMinutes: 240, outcome: 'DP strengthened' },
-  { topic: 'Mock Interview: DSA', description: 'Timed coding round simulation', taskType: 'practice', estimatedMinutes: 120, outcome: 'Mock completed' },
-  { topic: 'Week 78 Review', description: 'DSA readiness assessment', taskType: 'revise', estimatedMinutes: 120, outcome: 'DSA strong' },
-
-  // Week 79: Backend & Spring Interviews
-  { topic: 'Java Interview Questions', description: 'Top 50 Java questions', taskType: 'revise', estimatedMinutes: 180, outcome: 'Java sharp' },
+  // Week 82: Interview Prep - DSA & Backend (Days 295-301)
+  { topic: 'DSA Review: Arrays & Strings', description: 'Solve 10 medium problems', taskType: 'practice', estimatedMinutes: 240, outcome: 'Core patterns revised' },
+  { topic: 'DSA Review: Trees & Graphs', description: 'Solve 10 medium problems', taskType: 'practice', estimatedMinutes: 240, outcome: 'Tree/graph solid' },
+  { topic: 'DSA Review: Dynamic Programming', description: 'Solve 8 DP problems', taskType: 'practice', estimatedMinutes: 240, outcome: 'DP strengthened' },
+  { topic: 'Java Interview Questions', description: 'Top 50 Java questions with answers', taskType: 'revise', estimatedMinutes: 180, outcome: 'Java sharp' },
   { topic: 'Spring Boot Interview Prep', description: 'Core + advanced Spring questions', taskType: 'revise', estimatedMinutes: 180, outcome: 'Spring confident' },
-  { topic: 'Database Interview Prep', description: 'SQL, indexing, transactions, optimization', taskType: 'revise', estimatedMinutes: 180, outcome: 'Database strong' },
-  { topic: 'Microservices & Cloud Questions', description: 'Scalability, AWS, caching, queues', taskType: 'revise', estimatedMinutes: 180, outcome: 'Architecture clear' },
-  { topic: 'System Design Mock', description: 'Design a scalable service in 45 mins', taskType: 'practice', estimatedMinutes: 180, outcome: 'Design mock done' },
-  { topic: 'Behavioral Interview Prep', description: 'STAR method + real stories', taskType: 'learn', estimatedMinutes: 120, outcome: 'Behavioral ready' },
-  { topic: 'Week 79 Review', description: 'Backend interview readiness check', taskType: 'revise', estimatedMinutes: 120, outcome: 'Backend ready' },
+  { topic: 'System Design Practice', description: 'Design 2 systems in 45 mins each', taskType: 'practice', estimatedMinutes: 180, outcome: 'Design practiced' },
+  { topic: 'Week 82 Review', description: 'Interview prep review', taskType: 'revise', estimatedMinutes: 120, outcome: 'Interview ready' },
 
-  // Week 80: Resume & Portfolio
+  // Week 83: Final Prep & Launch (Days 302-308)
+  { topic: 'Mock Interview: DSA', description: 'Complete coding round simulation', taskType: 'practice', estimatedMinutes: 180, outcome: 'DSA mock done' },
+  { topic: 'Mock Interview: System Design', description: 'System design interview simulation', taskType: 'practice', estimatedMinutes: 180, outcome: 'Design mock done' },
+  { topic: 'Behavioral Interview Prep', description: 'STAR method + prepare stories', taskType: 'learn', estimatedMinutes: 180, outcome: 'Behavioral ready' },
   { topic: 'Resume Optimization', description: 'Rewrite resume for impact', taskType: 'build', estimatedMinutes: 180, outcome: 'Resume strong' },
-  { topic: 'LinkedIn Optimization', description: 'Optimize profile and headline', taskType: 'build', estimatedMinutes: 120, outcome: 'LinkedIn optimized' },
-  { topic: 'Portfolio Website Update', description: 'Showcase capstone and projects', taskType: 'build', estimatedMinutes: 180, outcome: 'Portfolio impressive' },
-  { topic: 'GitHub Cleanup', description: 'Clean repos, write README, pin projects', taskType: 'build', estimatedMinutes: 120, outcome: 'GitHub polished' },
-  { topic: 'Apply to 10 Companies', description: 'Target quality roles', taskType: 'practice', estimatedMinutes: 180, outcome: 'Applications sent' },
-  { topic: 'Networking Strategy', description: 'Reach out to recruiters and devs', taskType: 'practice', estimatedMinutes: 120, outcome: 'Network expanded' },
-  { topic: 'Week 80 Review', description: 'Career strategy evaluation', taskType: 'revise', estimatedMinutes: 120, outcome: 'Market ready' },
-
-  // Week 81: Final Confidence Build
-  { topic: 'Full Mock Interview Day', description: 'DSA + System Design + Behavioral', taskType: 'practice', estimatedMinutes: 300, outcome: 'Interview simulation done' },
-  { topic: 'Weak Area Reinforcement', description: 'Revise weakest topic deeply', taskType: 'practice', estimatedMinutes: 240, outcome: 'Gaps reduced' },
-  { topic: 'Final DSA Practice', description: 'Solve 5 random medium problems', taskType: 'practice', estimatedMinutes: 180, outcome: 'Confidence high' },
-  { topic: 'Capstone Presentation Practice', description: 'Practice explaining architecture', taskType: 'practice', estimatedMinutes: 150, outcome: 'Storytelling clear' },
-  { topic: 'Mental Prep & Strategy', description: 'Interview mindset preparation', taskType: 'learn', estimatedMinutes: 120, outcome: 'Mentally prepared' },
-  { topic: 'Journey Reflection', description: 'Review full learning path', taskType: 'revise', estimatedMinutes: 120, outcome: 'Self-awareness gained' },
+  { topic: 'LinkedIn & Applications', description: 'Optimize LinkedIn, apply to 10 companies', taskType: 'practice', estimatedMinutes: 180, outcome: 'Applications sent' },
+  { topic: 'Final Review', description: 'Review entire journey', taskType: 'revise', estimatedMinutes: 180, outcome: 'Journey reflected' },
   { topic: 'JOURNEY COMPLETE! 🎉', description: 'You are now a production-ready Java Full Stack Engineer!', taskType: 'revise', estimatedMinutes: 60, outcome: 'Engineer achieved!' },
-
 ];

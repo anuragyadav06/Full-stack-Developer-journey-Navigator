@@ -1,3 +1,6 @@
+// Phase 2: Data Structures & Algorithms (Weeks 9-21) - Mar 21 - Jun 18, 2026
+// PERFECTLY ALIGNED: 91 days (13 weeks) - Every week review on Day 7
+
 import { TaskType } from '../roadmapData';
 import { CurriculumTask } from './phase1-java-core';
 
