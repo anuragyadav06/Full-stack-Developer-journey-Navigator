@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Flame, Calendar, TrendingUp, ChevronRight, Zap } from 'lucide-react';
+import { Flame, Calendar, TrendingUp, ChevronRight, Zap, Sparkles, Brain } from 'lucide-react';
 import { ProgressRing } from './ProgressRing';
 import { TaskCard } from './TaskCard';
 import { dailyTasks, phases } from '@/data/roadmapData';
@@ -69,16 +69,79 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   const paceStats = getJourneyStats(dailyTasks);
 
+  // --- COMPLEMENT LOGIC ENGINE ---
+  const getVibeCheck = () => {
+    const aheadLines = [
+      "Anurag… relax. You're coding like the deadline personally insulted your family. Respect. ⚡",
+      "You're outrunning the roadmap so hard it might file a bug report against you.",
+      "Senior engineer behaviour detected. Keep going and recruiters will start smelling the commits.",
+      "You're moving faster than most bootcamp grads move excuses.",
+      "At this pace the roadmap will need a new roadmap.",
+      "Legend pace. Somewhere a Java instructor just felt proud and doesn't know why."
+
+    ];
+    const trackLines = [
+      "Clean rhythm. No drama. Just work. This is how engineers are built.",
+      "You’re doing what 90% of people *say* they’ll do but never actually do.",
+      "Good pace. Not flashy, not lazy. Just dangerous consistency.",
+      "Stack enough days like this and you'll accidentally become elite.",
+      "You're coding like someone who actually intends to get hired."
+    ];
+    const laggingLines = [
+      "Anurag… the roadmap is waiting. Your excuses are not part of the syllabus.",
+      "You wanted to be a full stack developer, remember? Because right now the stack is just dust.",
+      "The keyboard isn't going to solve problems telepathically. Start typing.",
+      "Right now the roadmap is progressing slower than a government website.",
+      "This pace won't get you hired. It barely gets you warmed up.",
+      "Your future self is watching this procrastination like a horror movie."
+    ];
+
+    // Pick a random line from the appropriate category
+    const pick = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+
+    if (paceStats.paceStatus === 'ahead') {
+      return {
+        text: pick(aheadLines),
+        style: "border-green-500/50 bg-green-500/10 text-green-400",
+        icon: <Sparkles className="text-green-400" size={18} />
+      };
+    } else if (paceStats.paceStatus === 'on-track') {
+      return {
+        text: pick(trackLines),
+        style: "border-blue-500/50 bg-blue-500/10 text-blue-400",
+        icon: <Zap className="text-blue-400" size={18} />
+      };
+    } else {
+      return {
+        text: pick(laggingLines),
+        style: "border-red-500/50 bg-red-500/10 text-red-400",
+        icon: <Brain className="text-red-400" size={18} />
+      };
+    }
+  };
+
+  const vibe = getVibeCheck();
+
   return (
     <div className="flex-1 p-6 lg:p-8 overflow-y-auto">
       <div className="max-w-6xl mx-auto">
 
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">Welcome Back, Developer</h1>
-          <p className="text-muted-foreground">
-            Your path to Java Full Stack mastery continues.
-          </p>
+        {/* Header with Complement Box */}
+        <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold">Welcome Back, Developer</h1>
+            <p className="text-muted-foreground">
+              Your path to Java Full Stack mastery continues.
+            </p>
+          </div>
+
+          {/* THE NEW COMPLEMENT BOX */}
+          <div className={`max-w-md border rounded-xl p-4 flex gap-3 items-start transition-all duration-500 hover:scale-[1.02] ${vibe.style}`}>
+            <div className="mt-1">{vibe.icon}</div>
+            <p className="text-sm font-medium italic leading-relaxed">
+              "{vibe.text}"
+            </p>
+          </div>
         </div>
 
         {/* Stats Grid */}
@@ -140,19 +203,18 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </p>
 
             <p
-              className={`text-xs mt-2 ${
-                paceStats.paceStatus === 'ahead'
-                  ? 'text-green-500'
-                  : paceStats.paceStatus === 'on-track'
+              className={`text-xs mt-2 ${paceStats.paceStatus === 'ahead'
+                ? 'text-green-500'
+                : paceStats.paceStatus === 'on-track'
                   ? 'text-blue-500'
                   : 'text-red-500'
-              }`}
+                }`}
             >
               {paceStats.paceStatus === 'ahead'
                 ? 'Ahead of schedule 🔥'
                 : paceStats.paceStatus === 'on-track'
-                ? 'On track ✅'
-                : 'Behind schedule ⚠️'}
+                  ? 'On track ✅'
+                  : 'Behind schedule ⚠️'}
             </p>
 
             <p className="text-xs text-muted-foreground mt-1">
